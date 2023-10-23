@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Quiz</title>
+    <style>
+/* Style the quiz container */
+#quiz-container {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the quiz title */
+h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Style the question */
+#question {
+    font-size: 24px;
+    margin: 20px 0;
+    color: #444;
+}
+
+/* Style the answer options */
+#options button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    font-size: 18px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Add hover effect to answer options */
+#options button:hover {
+    background-color: #2980b9;
+}
+
+/* Style the timer */
+#timer {
+    font-size: 20px;
+    color: #777;
+    margin-top: 20px;
+}
+
+/* Style correct and wrong alerts */
+.alert {
+    font-size: 20px;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.alert.correct {
+    background-color: #2ecc71;
+    color: #fff;
+}
+
+.alert.wrong {
+    background-color: #e74c3c;
+    color: #fff;
+}
+footer {
+            background-color: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    header {
+        padding: 10px 0;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    .nav li {
+        margin-right: 10px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Computer Quiz</h1>
+        <button><a href="home.html" class="quiz" >Home</a></button>
+        <button><a href="tutorials.html" class="tutorial">Tutorials</a></button>
+        <div id="question"></div>
+        <div id="options"></div>
+        <div id="timer">Time left: 10 seconds</div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Quiz. All rights reserved.</p>
+            <p> made by loukik of class 6th-c
+        </div>
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                question: "What does CPU stand for?",
+                options: ["Central Processing Unit", "Computer Personal Unit", "Central Process Unit", "Central Processor Unit"],
+                correctAnswer: 0
+            },
+            {
+                question: "Which programming language is used for web development?",
+                options: ["Java", "C++", "Python", "JavaScript"],
+                correctAnswer: 3
+            },
+            {
+                question: "What does HTML stand for?",
+                options: ["Hyper Text Markup Language", "Hyperlink and Text Markup Language", "High Text Markup Language", "Hyper Text Manipulation Language"],
+                correctAnswer: 0
+            }
+            // Add more questions here
+        ];
+
+        let currentQuestion = 0;
+        let timeLeft = 10;
+
+        function displayQuestion() {
+            const questionElement = document.getElementById("question");
+            const optionsElement = document.getElementById("options");
+            const timerElement = document.getElementById("timer");
+
+            questionElement.textContent = questions[currentQuestion].question;
+
+            optionsElement.innerHTML = "";
+            questions[currentQuestion].options.forEach((option, index) => {
+                const optionButton = document.createElement("button");
+                optionButton.textContent = option;
+                optionButton.addEventListener("click", () => checkAnswer(index));
+                optionsElement.appendChild(optionButton);
+            });
+
+            timeLeft = 10;
+            updateTimer(timerElement);
+
+            const timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer(timerElement);
+
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval);
+                    // Automatically move to the next question or end the quiz
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function updateTimer(timerElement) {
+            timerElement.textContent = `Time left: ${timeLeft} seconds`;
+        }
+
+        function checkAnswer(selectedIndex) {
+            if (selectedIndex === questions[currentQuestion].correctAnswer) {
+                alert("Correct!");
+            } else {
+                alert("Wrong!");
+            }
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                alert("Quiz finished!");
+            }
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
